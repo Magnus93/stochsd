@@ -6455,6 +6455,38 @@ class DisplayDialog extends jqDialog {
 			</table>
 		`);
 	}
+	renderLineTypeHtml() {
+		/* Can't be drawn with renderLineWidthOption */
+		let titles = ["Stocks", "Flows", "Others"];
+		let options = [
+			{"value": "2,_", "text":"Thick Solid"},
+			{"value": "1,_", "text":"Thin Solid"},
+			{"value": "2,-", "text":"Thick Dashed"},
+			{"value": "1,-", "text":"Thin Dashed"},
+			{"value": "2,.", "text":"Dotted"}
+		];
+		return (`
+			<table class="modernTable">
+			<tr>
+				<td colspan="3" style="text-align: center;">Line Type</td>
+			</tr>
+			<tr>
+				${titles.map((title) =>`<th>${title}</th>`).join('')}
+			</tr>
+			<tr>
+				${titles.map(title => `
+					<td>
+						<select>
+						${options.map(opt => `
+							<option value="${opt["value"]}">${opt["text"]}</option>
+						`).join('')}
+						</select>
+					</td>
+				`).join('')}
+			</tr>
+			</table>
+		`);
+	}
 	renderColorCheckboxHtml() {
 		return (`
 			<table class="modernTable" style="margin: 16px 0px">
@@ -6847,14 +6879,13 @@ class TimePlotDialog extends DisplayDialog {
 					<div class="table-cell">
 						${this.renderPrimitiveListHtml()}
 					</div>
-					
 					<div class="table-cell">
 						${this.renderPlotPerHtml()}
 						${this.renderAxisLimitsHTML()}
 						${this.renderAxisNamesHtml()}
 						${this.renderNumberedLinesCheckboxHtml()}
 						${this.renderColorCheckboxHtml()}
-						${this.renderLineWidthOptionHtml()}
+						${this.renderLineTypeHtml()}
 					</div>
 				</div>
 			</div>
